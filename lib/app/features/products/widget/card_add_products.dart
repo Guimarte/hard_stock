@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hard_stock/app/core/flutter_barcode_scanner/barcode_scanner.dart';
+import 'package:hard_stock/app/database/products_table.dart';
 import 'package:hard_stock/app/features/products/bloc/products_bloc.dart';
+import 'package:hard_stock/app/features/products/bloc/products_events.dart';
 import 'package:hard_stock/app/widgets/custom_text_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -33,12 +35,12 @@ class CardAddProducts extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () async {
-                final SharedPreferences prefs =
-                    await SharedPreferences.getInstance();
-                print("TESTE TESTE TESTE TESTE ");
-                print(productsBloc.productName.text);
-                prefs.setString("nome", productsBloc.productName.text);
-                Navigator.pop(context);
+                Products products = Products();
+                products.barCode = 123;
+                products.id = 1;
+                products.name = "TESTE";
+                products.quantity = 10.0;
+               productsBloc.add(SaveProductsEvent(products));
               },
               child: Text("Salvar"),
             ),
